@@ -12,7 +12,7 @@ Parameter: "ip"(POST)
 
 ## Description:
 
-The eladmin v2.7 and before is vulnerable to Server-Side Request Forgery (SSRF) via `ServerDeployController.java`. The malicious actor can use this vulnerability to execute arbitrary code. 
+The eladmin v2.7 and before is vulnerable to Server-Side Request Forgery (SSRF) via `ServerDeployController.java`. The malicious actor can use this vulnerability to make arbitrary requests to internal or external systems.
 1. Log in to the backend with the project's default password `admin/123456`. Select '运维管理(Operations Management)' - '服务器(Server)' - '新增(Add New Server)' from the left menu in order, the server configuration box pops up.  Here you can fill in the server's IP. If you directly fill in a domain name here, it will be intercepted by the front end, but the back-end interface does not do this check.
 <img width="1503" alt="image" src="https://github.com/user-attachments/assets/cbe0cbb4-8df4-4fcb-960e-accb52374759">
 <img width="1579" alt="image" src="https://github.com/user-attachments/assets/ac0b40ec-eb51-44bb-8c88-05b6687c5511">
