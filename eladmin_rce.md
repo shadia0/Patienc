@@ -12,7 +12,7 @@ Parameter: "appName"(POST)
 
 ## Description:
 
-The eladmin v2.7 and before has an RCE that can control all application deployment servers of this management system.
+The eladmin v2.7 and before has an RCE that can control all application deployment servers of this management system via `DeployController.java`.
 1. Log in to the backend with the project's default password `admin/123456`.
 
 2. First simulate normal operation and maintenance operations, create some servers, and deploy some applications on these servers. Here I run a docker locally and map it to port `2222` to simulate the server where the application is deployed
