@@ -63,6 +63,9 @@ Connection: close
 ```
 Send the request packet to Burp Intruder, modify the offset of the `pg_read_file()` function, then iterate through all characters for matching. Identify the character that causes a delayed response. The following image proves that the first two characters of `/etc/passwd` are 'r' and 'o'. By using this method, you can obtain the entire content of the file.
 
-<img width="1182" alt="image" src="https://github.com/user-attachments/assets/589bb6c4-05cb-4a24-aa1e-ac729e714cc9">
-<img width="1196" alt="image" src="https://github.com/user-attachments/assets/3399a6de-f5d1-4c74-937e-a948ab57a76a">
+![551729649470_ pic](https://github.com/user-attachments/assets/98c0bb9f-03a8-43ec-b980-87d114e87362)
+![541729649429_ pic](https://github.com/user-attachments/assets/e2f8d555-a4e9-4a0a-b655-01d8fd6d8f10)
+
+
+
 
