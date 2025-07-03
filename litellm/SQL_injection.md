@@ -1,3 +1,5 @@
+# litellm_sql_injection
+
 BUG_Author: shadia0
 
 Affected version: litellm latest version and before
