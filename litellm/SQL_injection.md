@@ -1,3 +1,13 @@
+BUG_Author: shadia0
+
+Affected version: litellm latest version and before
+
+Project Link: [https://github.com/elunez/eladmin](https://github.com/BerriAI/litellm)
+
+URL: /key/block
+
+Parameter: "key"(POST)
+
 # Description
 There is sql injection in this endpoint `/key/block`. A proxy_admin_viewer API key can also achieve arbitrary file reading on the server.
 
