@@ -93,4 +93,10 @@ Send the request packet to Burp Intruder, modify the offset of the `pg_read_file
 
 <img width="1262" alt="1241741190564_ pic" src="https://github.com/user-attachments/assets/9f9d79b7-daca-4c31-b5ea-a60fd173783d" />
 
+# Remediation Recommendations
+As the latest version of LiteLLM still has not fixed this vulnerability, we recommend the following measures:
+
+1. Replace string formatting with parameterized queries to prevent SQL injection
+2. Implement proper input validation and sanitization before processing any user-provided data in database queries.
+3. If using an ORM framework, leverage its built-in security features instead of writing raw SQL queries.
 
